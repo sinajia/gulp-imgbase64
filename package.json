@@ -1,0 +1,36 @@
+{
+  "name": "gulp-imgbase64",
+  "version": "0.0.1",
+  "description": "Convert and replace image-files within your HTML files to base64-encoded data(Data Url).",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Banz"
+  },
+  "maintainers": [
+    {
+      "name": "Banz",
+      "email": "admin@waketu.com"
+    }
+  ],
+  "engines": {
+    "node": ">=4"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "gulpplugin",
+    "base64",
+    "html",
+    "img",
+    "optimize",
+    "data url",
+    "src"
+  ],
+  "dependencies": {
+    "gulp-util": "^3.0.0",
+    "through2": "^2.0.0",
+    "vinyl-file": "^2.0.0"
+  }
+}
