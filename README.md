@@ -1,18 +1,18 @@
-# gulp-img64
+# gulp-imgbase64
 **将 html 文件中的 img 元素 src 属性引用的图片转换为 base64 编码的 Data Url 格式，减少网页加载过程中 http 请求的次数**
 
-gulp-img64 is a gulpplugin.It will search all img tags in a html file.Then It converts src to Data Url.
+gulp-imgbase64 is a gulpplugin.It will search all img tags in a html file.Then It converts src to Data Url.
 The purpose is to reduce the number of http requests.
 
 ## Install
 
 ```
-$ npm install --save-dev gulp-img64
+$ npm install --save-dev gulp-imgbase64
 ```
 
 ## Usage
 
-**Add ```<CONERT-HTML-IMG-BASE64>``` and ```</CONERT-HTML-IMG-BASE64>``` to html source file to tell gulp-img64 which img tags need to be converted**
+**Add ```<CONERT-HTML-IMG-BASE64>``` and ```</CONERT-HTML-IMG-BASE64>``` to html source file to tell gulp-imgbase64 which img tags need to be converted**
 <br> 
 
 ```html
