@@ -8,7 +8,7 @@ const END = '</CONERT-HTML-IMG-BASE64>';
 const EXTIMG = /(\<img)(\s)+/gi;
 const EXTQUOT = /^(\s)*\=?(\s)*[\"\'].*/g;
 const LIMIT = 8 * 1024;
-const PLUGIN_NAME = 'gulp-img64';
+const PLUGIN_NAME = 'gulp-imgbase64';
 
 function plugin(option) {
   let limit = option ? fileSize(option.limit) : LIMIT;
