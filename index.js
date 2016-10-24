@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 const path = require('path');
 const gutil = require('gulp-util');
 const through = require('through2');
@@ -11,7 +11,7 @@ const LIMIT = 8 * 1024;
 const PLUGIN_NAME = 'gulp-img64';
 
 function plugin(option) {
-	let limit = option ? fileSize(option.limit) : LIMIT;
+  let limit = option ? fileSize(option.limit) : LIMIT;
   var stream = through.obj(function(file, enc, cb) {
     if (file.isStream()) {
       this.emit('error', new PluginError(PLUGIN_NAME, 'Streams are not supported!'));
@@ -20,89 +20,89 @@ function plugin(option) {
     if (file.isBuffer()) {
       let contents = file.contents.toString('utf8');
       let html_path = file.path;
-			let Block = [];
+      let Block = [];
 
-			let cutFile = function (content){
-				var i_start = -1;
-				var i_end = -1;
-				for(;;) {
-					i_start = content.indexOf(TAG);
-						if(i_start == -1) {
-							if(Block.length > 0) {
-								Block.push({
-									will: false,
-									data: content
-								});
-							}
-						return;
-						}
-					i_end = content.indexOf(END);
-					if(i_end == -1 || i_start > i_end) {
-						Block = [];
-						return;
-					}
-					Block.push({
-						will: false,
-						data: content.substring(0, i_start)
-					});
-					Block.push({
-						will: true,
-						data: content.substring(i_start + TAG.length, i_end)
-					});
-					content = content.substring(i_end + END.length);
-				}
-			}  //end func
-			cutFile(contents);
+      let cutFile = function (content){
+        var i_start = -1;
+        var i_end = -1;
+        for(;;) {
+          i_start = content.indexOf(TAG);
+          if(i_start == -1) {
+            if(Block.length > 0) {
+              Block.push({
+                will: false,
+                data: content
+              });
+            }
+          return;
+          }
+          i_end = content.indexOf(END);
+          if(i_end == -1 || i_start > i_end) {
+            Block = [];
+            return;
+          }
+          Block.push({
+            will: false,
+            data: content.substring(0, i_start)
+          });
+          Block.push({
+            will: true,
+            data: content.substring(i_start + TAG.length, i_end)
+          });
+          content = content.substring(i_end + END.length);
+        }
+      }  //end func
+      cutFile(contents);
 
-			var transFile = function () {
-				if(Block.length == 0) return contents;
+      var transFile = function () {
+        if(Block.length == 0) return contents;
 
-				for (let i = 0; i < Block.length; ++i) {
-					if(Block[i].will) {
-						processPiece(i);
-					}
-				}
-				let content = '';
-				for(let i = 0; i < Block.length; ++i){
-					if(Block[i].will){
+        for (let i = 0; i < Block.length; ++i) {
+          if(Block[i].will) {
+            processPiece(i);
+          }
+        }
+        let content = '';
+        for(let i = 0; i < Block.length; ++i){
+          if(Block[i].will){
             if(Block[i].data_piece.length == Block[i].img_64.length + 1)
               ;
             else return contents;
-						for (let j = 0; j < Block[i].data_piece.length; ++j){
-							content += Block[i].data_piece[j];
-							if( j < Block[i].img_64.length ) {
-								content += Block[i].img_64[j];
-							}
-						}
-					}else{
-						content += Block[i].data;
-					}
-				}
-				return content;
-			} //end 
+            for (let j = 0; j < Block[i].data_piece.length; ++j){
+              content += Block[i].data_piece[j];
+              if( j < Block[i].img_64.length ) {
+                content += Block[i].img_64[j];
+              }
+            }
+          }else{
+            content += Block[i].data;
+          }
+        }
+        return content;
+      } //end 
 
-			var processPiece = function (i) {
-				var piece = Block[i].data;
-				var i_start = -1;
-				var i_end = -1;
-				Block[i].data_piece = [];
-				Block[i].img_64 = [];
-				for(;;){
-					i_start = quot_start(piece, limit, html_path);
-					if(i_start == -1) {
-						Block[i].data_piece.push(piece);
-						return;
-					}
-					i_end = quot_end(piece, i_start);
-					Block[i].img_64.push(transBase64(path_regular(piece.substring(i_start + 1, i_end), 
-								limit,
+      var processPiece = function (i) {
+        var piece = Block[i].data;
+        var i_start = -1;
+        var i_end = -1;
+        Block[i].data_piece = [];
+        Block[i].img_64 = [];
+        for(;;){
+          i_start = quot_start(piece, limit, html_path);
+          if(i_start == -1) {
+            Block[i].data_piece.push(piece);
+            return;
+          }
+          i_end = quot_end(piece, i_start);
+          Block[i].img_64.push(transBase64(path_regular(piece.substring(i_start + 1, i_end), 
+                limit,
                 html_path ) ) );
-					Block[i].data_piece.push(piece.substring(0, i_start + 1));
-					piece = piece.substring(i_end);
-				}
-			} //end func
-			
-			file.contents = new Buffer(washTags(transFile()));
+          Block[i].data_piece.push(piece.substring(0, i_start + 1));
+          piece = piece.substring(i_end);
+        }
+      } //end func
+      
+      file.contents = new Buffer(washTags(transFile()));
     }
     this.push(file);
     cb();
@@ -118,19 +118,19 @@ function washTags(html){
 
 function fileSize(limit) {
   if(!limit) return LIMIT;
-	let start, end;
-	const BEGNUM = /(\d){1}/;
+  let start, end;
+  const BEGNUM = /(\d){1}/;
   const NUMEND = /(\d\D)/;
-	start = limit.search(BEGNUM);
-	end = limit.search(NUMEND);
-	if(start == -1 || end == -1) return LIMIT;
-	limit = limit.substring(start, end + 1);
-	try{
-		limit = limit - 0;
-	}catch(e){
-		return LIMIT;
-	}
-	return (1024 * limit);
+  start = limit.search(BEGNUM);
+  end = limit.search(NUMEND);
+  if(start == -1 || end == -1) return LIMIT;
+  limit = limit.substring(start, end + 1);
+  try{
+    limit = limit - 0;
+  }catch(e){
+    return LIMIT;
+  }
+  return (1024 * limit);
 }
 /**
  * content is a path in html
@@ -158,10 +158,10 @@ function path_regular(content, limit, html){
   else return '';
   try{
     content = path.resolve(html, '..', content);
-		let stat = fs.statSync(content);
-		if(stat.size && stat.size <= limit)
-			;
-		else throw new Error('');
+    let stat = fs.statSync(content);
+    if(stat.size && stat.size <= limit)
+      ;
+    else throw new Error('');
   }catch(e){
     return '';
   }
@@ -293,9 +293,9 @@ function first_quot_pos(content, limit, html_path){
       if((content[i] == '"' || content[i] == '\'') && mark == content[i]){
         let url = content.substring(start + 1, i);
         if(path_regular(url, 
-					limit,
+          limit,
           html_path
-				)) return start;
+        )) return start;
         return -1;
       }
     }else{
