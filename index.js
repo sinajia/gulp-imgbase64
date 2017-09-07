@@ -2,6 +2,7 @@
 const path = require('path');
 const gutil = require('gulp-util');
 const through = require('through2');
+const PluginError = gutil.PluginError;
 const fs = require('fs');
 const TAG = '<CONERT-HTML-IMG-BASE64>';
 const END = '</CONERT-HTML-IMG-BASE64>';

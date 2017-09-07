@@ -1,6 +1,6 @@
 {
   "name": "gulp-imgbase64",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Convert and replace image-files within your HTML files to base64-encoded data(Data Url).",
   "main": "index.js",
   "license": "MIT",
